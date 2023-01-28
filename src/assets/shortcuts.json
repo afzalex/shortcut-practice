@@ -1,0 +1,57 @@
+{
+    "Idea": {
+        "Reformat Code": "Cmd + Option + L",
+        "Reformat File": "Cmd + Option + Shift + L",
+        "Run last configuration": "Ctrl + R",
+        "Run Method ": "Ctrl + Shift + R",
+        "Editor Full Screen": "Cmd + Shift + F12",
+        "Terminal Full Screen": "Cmd + Shift + '",
+        "Focus Terminal": "Option + F12",
+        "Recent Files": "Cmd + E",
+        "Next Method": "Ctrl + Shift + Down",
+        "Rename": "Shift + F6",
+        "Reformat Selected": "Cmd + Option + L",
+        "Open Recent (Manual)": "Cmd + Option + Shift + O",
+        "Toggle Bookmark": "F3",
+        "Focus Editor": "Cmd + 1 + 1",
+        "Debugging | View Breakpoints": "Cmd + Shift + F8",
+        "Debugging | Resume Program": "Cmd + Shift + R",
+        "Debugging | Step Over": "F8",
+        "Debugging | Evaluate Expression": "Option + F8"
+    },
+    "Visual Studio Code ": {
+        "Help": "Cmd + Shift + P",
+        "Reformat Code": "Cmd + K, Cmd + F",
+        "Reformat File": "Option + Shift + F",
+        "Quick Fix": "Cmd + .",
+        "Terminal": "Ctrl + ` (back tick)",
+        "PlatformIO | Upload Code": "Ctrl + Option + U",
+        "PlatformIO | Build Code": "Ctrl + Option + B",
+        "PlatformIO | Serial Monitor": "Ctrl + Option + S"
+    },
+    "Google Sheets": {
+        "Select Row": "Shift + Space + Space",
+        "Insert Row": "Cmd + Option + =",
+        "Help": "Cmd + /"
+    },
+    "KDiff3": {
+        "Select line(s) from A": "Cmd + 1",
+        "Select line(s) from B": "Cmd + 2",
+        "Select line(s) from C": "Cmd + 3",
+        "Choose A Everywhere": "Cmd + Shift + 1",
+        "Choose B Everywhere": "Cmd + Shift + 2",
+        "Choose C Everywhere": "Cmd + Shift + 3",
+        "Goto Current Delta": "Cmd + Space",
+        "Goto Next Conflict": "Cmd + Down",
+        "Next Unresolved Conflict": "Cmd + Shift + Down"
+    },
+    "Vim": {
+        "Start Recording": "q + <letter>",
+        "End Recording": "q",
+        "Replay Recording": "@ + <letter>",
+        "Replace character under cursor": "r + <letter>",
+        "Show line numbers": ":set number",
+        "Hide line numbers": ":set nonumber",
+        "Search and Replace": ":s/<search>/<replace>/g"
+    }
+}

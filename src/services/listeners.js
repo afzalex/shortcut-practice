@@ -1,6 +1,6 @@
 
 import {fromEvent} from "rxjs"
-import {store, shortcutsSlice, updateChallenge} from './store'
+import {store, shortcutsSlice, setChallengeSuccessful} from '../store'
 import {produce} from 'immer'
 
 fromEvent(document, 'keyup', true)
@@ -89,8 +89,9 @@ fromEvent(document, 'keydown', true)
         if(keys.length > 0 && semiChallengeSuccessfulCounter !== keys.length) {
             store.dispatch(shortcutsSlice.actions.setSemiChallengeSuccessful(semiChallengeSuccessfulCounter + 1))
         } else {
-            store.dispatch(updateChallenge())
-            store.dispatch(shortcutsSlice.actions.setChallengeSuccessful(true))
+            // store.dispatch(shortcutsSlice.actions.setChallengeSuccessful(true))
+            store.dispatch(setChallengeSuccessful(true))
+            // store.dispatch(updateChallenge())
         }
     } else if (semiChallengeSuccessfulCounter !== 0) {
         store.dispatch(shortcutsSlice.actions.setSemiChallengeSuccessful(0))

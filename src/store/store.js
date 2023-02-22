@@ -53,17 +53,18 @@ const shortcutsSlice = createSlice({
       subjects: getInitSubjectsAndResetShortcutsArray(),
       isCmdPressed: false,
       challenge: getNewChallenge(),
-      isLastChallengeSuccessful: false,
-      semiChallengeSuccessfulCounter: 0
+      semiChallengeSuccessfulCounter: 0,
+      challengeSuccessState: 0, // 0: None, 1: Last Successful, 2: Failed
+      lastChallenge: undefined
     }, 
     reducers: {
-      toggleCmd: state => state.isCmdPressed = !state.isCmdPressed,
       cmdActive: state => ({...state, isCmdPressed: true}),
       cmdInactive: state => ({...state, isCmdPressed: false}),
       setNewChallenge: (state, action) => ({...state, challenge: action.payload}),
-      setChallengeSuccessful: (state, action) => ({...state, semiChallengeSuccessfulCounter: 0, isLastChallengeSuccessful: action.payload}),
       setSemiChallengeSuccessful: (state, action) => ({...state, semiChallengeSuccessfulCounter: action.payload}),
-      setSubjectSelections: (state, action) => ({...state, subjects: action.payload})
+      setSubjectSelections: (state, action) => ({...state, subjects: action.payload}),
+      setChallengeSuccessState: (state, action) => ({...state, challengeSuccessState: action.payload}),
+      setLastChallenge: (state, action) => ({...state, lastChallenge: action.payload})
     }
   })
 
@@ -97,14 +98,17 @@ const setSubjectSelections = (newSubjectSelections) => dispatch => {
   localStorage.shortcutsSubjects = JSON.stringify(subjectSelections)
 }
 
-const setChallengeSuccessful = (isSuccessful) => dispatch => {
-  if (isSuccessful && store.getState().shortcuts?.challenge) {
-    const challengeShortcutIndex = store.getState().shortcuts?.challenge?.shortcutIndex;
+const setChallengeSuccessful = () => dispatch => {
+  const shortcutsState = store.getState().shortcuts;
+  if (shortcutsState?.challenge) {
+    dispatch(shortcutsSlice.actions.setLastChallenge(shortcutsState.challenge))
+    const challengeShortcutIndex = shortcutsState.challenge?.shortcutIndex;
     const challengeShortcutObject = shortcutsArray[challengeShortcutIndex]
     challengeShortcutObject.successCount++
   }
   dispatch(updateChallenge())
-  dispatch(shortcutsSlice.actions.setChallengeSuccessful(isSuccessful))
+  // dispatch(shortcutsSlice.actions.setChallengeSuccessful(isSuccessful))
+  dispatch(shortcutsSlice.actions.setChallengeSuccessState(1))
 }
 
 function getNewChallenge() {

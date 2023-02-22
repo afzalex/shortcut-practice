@@ -11,26 +11,29 @@ import {produce} from 'immer'
 import {updateChallenge, shortcutsSlice, setSubjectSelections} from '../store'
 
 const selectChallenge = state => state.shortcuts.challenge
-const selectLastChallengeSuccessful = state => state.shortcuts.isLastChallengeSuccessful
+const selectLastChallange = state => state.shortcuts.lastChallenge
+const selectChallangeState = state => state.shortcuts.challengeSuccessState
 const selectSubjectSelections = state => produce(state.shortcuts.subjects, ()=>{})
 
 function App() {
   
   const dispatch = useDispatch()
   const challenge = useSelector(selectChallenge)
-  const isLastChallengeSuccessful = useSelector(selectLastChallengeSuccessful)
+  const lastChallenge = useSelector(selectLastChallange)
+  const challengeSuccessState = useSelector(selectChallangeState)
   const subjectSelections = useSelector(selectSubjectSelections)
+
   const [revealCurrentChallenge, setRevealCurrentChallenge] = useState(false)
-  const [lastChallengeKeys, setLastChallengeKeys] = useState(undefined)
+  // const [lastChallengeKeys, setLastChallengeKeys] = useState(undefined)
   const [subjectSelectionsTemporary, setSubjectSelectionsTemporary] = useState(subjectSelections)
   const [showDrawer, setShowDrawer] = useState(false)
   useEffect(() => {
-    if(!isLastChallengeSuccessful) {
-      setLastChallengeKeys(challenge.shortcutKeys)
-    } else {
-      setRevealCurrentChallenge(false)
-    }
-  }, [challenge, isLastChallengeSuccessful]);
+    // if (challengeSuccessState !== 1) {
+    //   setLastChallengeKeys(challenge.shortcutKeys)
+    // } else {
+    //   setRevealCurrentChallenge(false)
+    // }
+  }, [challenge, challengeSuccessState]);
   return (
     <Box flexGrow={1}>
       <AppBar position="static">
@@ -61,24 +64,31 @@ function App() {
         </Drawer>
       </AppBar>
       {challenge && <Box flexGrow={1} display="flex" justifyContent="center" alignItems="center" >
-        <Box width={300} textAlign='center' className='pb-5 mt-5'>
+        <Box  textAlign='center' className='pb-5 mt-5 col-md-4'>
           <Card sx={{ minWidth: 275 }} raised={true} >
             <CardHeader title={challenge.subject} className='bg-primary text-white'></CardHeader>
             <CardContent className='pt-5 pb-5 border-bottom' >
                 {challenge.shortcutName}
             </CardContent>
             <CardActions>
-              <Button size="small" onClick={e => setRevealCurrentChallenge(true)} >Reveal</Button>
+              <Button size="small" onClick={e => setRevealCurrentChallenge(true)} >REVEAL</Button>
+              <Button size="small" style={{marginLeft: 'auto'}} onClick={e => dispatch(updateChallenge())}>NEXT</Button>
             </CardActions>
           </Card>
         </Box>
       </Box>}
-      <Snackbar open={isLastChallengeSuccessful} autoHideDuration={6000} onClose={e => dispatch(shortcutsSlice.actions.setChallengeSuccessful(false))}>
-        <Alert severity="success" sx={{ width: '100%' }}>Shortcut Challenge Successful : {lastChallengeKeys}</Alert>
-      </Snackbar>
-      <Snackbar open={revealCurrentChallenge} autoHideDuration={6000} onClose={e => setRevealCurrentChallenge(false)}>
-        <Alert severity="warning" sx={{ width: '100%' }}>Shortcut Challenge Correct Keys were : {challenge.shortcutKeys}</Alert>
-      </Snackbar>
+
+      <div>
+        <Snackbar open={revealCurrentChallenge} autoHideDuration={6000} onClose={e => setRevealCurrentChallenge(false)}>
+          <Alert severity="warning" sx={{ width: '100%' }}>Shortcut Challenge Correct Keys were : {challenge.shortcutKeys}</Alert>
+        </Snackbar>
+        <Snackbar open={challengeSuccessState===1 && !!lastChallenge} autoHideDuration={6000} onClose={e => dispatch(shortcutsSlice.actions.setChallengeSuccessState(0))}>
+          <Alert severity="success" sx={{ width: '100%' }}>Shortcut Challenge Successful : {lastChallenge?.shortcutKeys}</Alert>
+        </Snackbar>
+        <Snackbar open={challengeSuccessState===2 && !(revealCurrentChallenge)} autoHideDuration={2000} onClose={e => dispatch(shortcutsSlice.actions.setChallengeSuccessState(0))}>
+          <Alert severity='error' sx={{ width: '100%' }}>Shortcut Challenge Failed</Alert>
+        </Snackbar>
+      </div>
     </Box>
   );
 }

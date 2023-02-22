@@ -90,11 +90,15 @@ fromEvent(document, 'keydown', true)
             store.dispatch(shortcutsSlice.actions.setSemiChallengeSuccessful(semiChallengeSuccessfulCounter + 1))
         } else {
             // store.dispatch(shortcutsSlice.actions.setChallengeSuccessful(true))
-            store.dispatch(setChallengeSuccessful(true))
+            store.dispatch(setChallengeSuccessful())
             // store.dispatch(updateChallenge())
         }
-    } else if (semiChallengeSuccessfulCounter !== 0) {
-        store.dispatch(shortcutsSlice.actions.setSemiChallengeSuccessful(0))
+    } else {
+        if (semiChallengeSuccessfulCounter !== 0) {
+            store.dispatch(shortcutsSlice.actions.setSemiChallengeSuccessful(0))
+        }
+        // store.dispatch(shortcutsSlice.actions.setChallengeFailed(true))
+        store.dispatch(shortcutsSlice.actions.setChallengeSuccessState(2))
     }
     e.stopImmediatePropagation()
     e.stopPropagation()
